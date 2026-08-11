@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>九门 · 创新广告产品合集</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: #16130f;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== 页面容器 ===== */
+.page-wrap {
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ===== 封面 ===== */
+.cover {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.cover img {
+  width: 100%;
+  display: block;
+}
+.cover .scroll-hint {
+  position: absolute;
+  bottom: 4%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid rgba(212, 175, 118, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse 2s ease-in-out infinite;
+  cursor: pointer;
+  background: rgba(22, 19, 15, 0.35);
+  backdrop-filter: blur(2px);
+}
+.cover .scroll-hint svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: #d4af76;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: bounceDown 1.6s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 118, 0.35); }
+  50% { box-shadow: 0 0 0 12px rgba(212, 175, 118, 0); }
+}
+@keyframes bounceDown {
+  0%, 100% { transform: translateY(-2px); }
+  50% { transform: translateY(3px); }
+}
+
+/* ===== 内容区块 ===== */
+.section {
+  position: relative;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.section > img.bg {
+  width: 100%;
+  display: block;
+  background: #1c1813;
+}
+
+/* ===== 视频热区 ===== */
+.video-hotspot {
+  position: absolute;
+  cursor: pointer;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #000;
+}
+.video-hotspot video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.video-hotspot .play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.45);
+  border: 2px solid rgba(255,255,255,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+.video-hotspot .play-btn::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 9px 0 9px 16px;
+  border-color: transparent transparent transparent #fff;
+  margin-left: 4px;
+}
+.video-hotspot.playing .play-btn {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.6);
+}
+.video-hotspot:hover .play-btn {
+  background: rgba(0,0,0,0.65);
+  transform: translate(-50%, -50%) scale(1.08);
+}
+.video-hotspot.playing:hover .play-btn {
+  opacity: 0;
+}
+
+/* 暂停指示 */
+.video-hotspot .pause-indicator {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  pointer-events: none;
+}
+.video-hotspot .pause-indicator::before,
+.video-hotspot .pause-indicator::after {
+  content: '';
+  width: 3px;
+  height: 10px;
+  background: #fff;
+  border-radius: 1px;
+}
+.video-hotspot .pause-indicator::before { margin-right: 3px; }
+.video-hotspot.playing .pause-indicator { display: flex; }
+
+/* ===== 底部 ===== */
+.footer {
+  padding: 40px 20px 60px;
+  text-align: center;
+  color: rgba(212, 175, 118, 0.5);
+  font-size: 12px;
+  letter-spacing: 1px;
+  background: #16130f;
+}
+.footer .divider {
+  width: 60px;
+  height: 1px;
+  background: rgba(212, 175, 118, 0.2);
+  margin: 0 auto 16px;
+}
+
+/* ===== 加载动画 ===== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- 封面（头图） -->
+  <div class="cover" id="cover">
+    <img src="assets/images/hero_bg.gif" alt="九门">
+    <div class="scroll-hint" onclick="document.getElementById('sec2').scrollIntoView({behavior:'smooth'})">
+      <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </div>
+  </div>
+
+  <!-- 数据总览 -->
+  <div class="section" id="sec2">
+    <img class="bg" src="assets/images/sec2_hotsearch.png" alt="数据总览">
+  </div>
+
+  <!-- 01 醒目吸睛：金句定格 + SCG抽屉 -->
+  <div class="section" id="sec3">
+    <img class="bg" src="assets/images/sec3_eye_catching.png" alt="醒目吸睛">
+    <!-- slot 1 九门天猫 金句定格标版 -->
+    <div class="video-hotspot" style="left:9.03%; top:15.16%; width:82.03%; height:24.06%;">
+      <video src="assets/videos/v01_tmall_quote.mp4" poster="assets/posters/v01_tmall_quote.jpg" preload="metadata" playsinline webkit-playsinline loop></video>
+      <div class="play-btn"></div>
+      <div class="pause-indicator"></div>
+    </div>
+    <!-- slot 2 SCG抽屉 占位 -->
+    <div class="video-hotspot" data-empty style="left:9.03%; top:59.88%; width:82.03%; height:24.06%;">
+      <video src="assets/videos/placeholder.mp4" poster="assets/posters/placeholder.jpg" preload="metadata" playsinline webkit-playsinline loop></video>
+      <div class="play-btn"></div>
+      <div class="pause-indicator"></div>
+    </div>
+  </div>
+
+  <!-- 02 AI创新：AIGC小剧场 + 陪看萌宠 -->
+  <div class="section" id="sec4">
+    <img class="bg" src="assets/images/sec4_ai_innovation.png" alt="AI创新">
+    <!-- slot 3 三九 x 互动小剧场 -->
+    <div class="video-hotspot" style="left:9.12%; top:14.79%; width:82.12%; height:24.11%;">
+      <video src="assets/videos/v03_sanjiu_aigc.mp4" poster="assets/posters/v03_sanjiu_aigc.jpg" preload="metadata" playsinline webkit-playsinline loop></video>
+      <div class="play-btn"></div>
+      <div class="pause-indicator"></div>
+    </div>
+    <!-- slot 4 天猫养宠 -->
+    <div class="video-hotspot" style="left:9.49%; top:61.28%; width:81.66%; height:23.87%;">
+      <video src="assets/videos/v04_tmall_pet.mp4" poster="assets/posters/v04_tmall_pet.jpg" preload="metadata" playsinline webkit-playsinline loop></video>
+      <div class="play-btn"></div>
+      <div class="pause-indicator"></div>
+    </div>
+  </div>
+
+  <!-- AI破框：百事 / 美年达 / 元气森林 / 百岁山 -->
+  <div class="section" id="sec5">
+    <img class="bg" src="assets/images/sec5_ai_breakframe.png" alt="AI破框">
+    <!-- slot 5 百事郭麒麟 -->
+    <div class="video-hotspot" style="left:9.49%; top:4.33%; width:81.20%; height:14.94%;">
+      <video src="assets/videos/v05_pepsi_guoqilin.mp4" poster="assets/posters/v05_pepsi_guoqilin.jpg" preload="metadata" playsinline webkit-playsinline loop></video>
+      <div class="play-btn"></div>
+      <div class="pause-indicator"></div>
+    </div>
+    <!-- slot 6 百事王嘉尔 -->
+    <div class="video-hotspot" style="left:9.68%; top:21.78%; width:81.20%; height:14.94%;">
+      <video src="assets/videos/v06_pepsi_wangjier.mp4" poster="assets/posters/v06_pepsi_wangjier.jpg" preload="metadata" playsinline webkit-playsinline loop></video>
+      <div class="play-btn"></div>
+      <div class="pause-indicator"></div>
+    </div>
+    <!-- slot 7 美年达 -->
+    <div class="video-hotspot" style="left:9.68%; top:39.41%; width:81.20%; height:14.94%;">
+      <video src="assets/videos/v07_mirinda.mp4" poster="assets/posters/v07_mirinda.jpg" preload="metadata" playsinline webkit-playsinline loop></video>
+      <div class="play-btn"></div>
+      <div class="pause-indicator"></div>
+    </div>
+    <!-- slot 8 元气森林 -->
+    <div class="video-hotspot" style="left:9.68%; top:56.89%; width:81.20%; height:14.94%;">
+      <video src="assets/videos/v08_yuanqi.mp4" poster="assets/posters/v08_yuanqi.jpg" preload="metadata" playsinline webkit-playsinline loop></video>
+      <div class="play-btn"></div>
+      <div class="pause-indicator"></div>
+    </div>
+    <!-- slot 9 百岁山 -->
+    <div class="video-hotspot" style="left:9.68%; top:74.45%; width:82.03%; height:15.13%;">
+      <video src="assets/videos/v09_baishuishan.mp4" poster="assets/posters/v09_baishuishan.jpg" preload="metadata" playsinline webkit-playsinline loop></video>
+      <div class="play-btn"></div>
+      <div class="pause-indicator"></div>
+    </div>
+  </div>
+
+  <!-- 03 场景沉浸：表态弹幕 + 生花弹幕 -->
+  <div class="section" id="sec6">
+    <img class="bg" src="assets/images/sec6_scene_danmu.png" alt="场景沉浸">
+    <!-- slot 11 表态弹幕 占位 -->
+    <div class="video-hotspot" data-empty style="left:8.94%; top:8.73%; width:82.03%; height:12.98%;">
+      <video src="assets/videos/placeholder.mp4" poster="assets/posters/placeholder.jpg" preload="metadata" playsinline webkit-playsinline loop></video>
+      <div class="play-btn"></div>
+      <div class="pause-indicator"></div>
+    </div>
+    <!-- slot 12 银鹭生花弹幕 -->
+    <div class="video-hotspot" style="left:9.77%; top:33.14%; width:81.20%; height:12.88%;">
+      <video src="assets/videos/v12_yinlu_danmu.mp4" poster="assets/posters/v12_yinlu_danmu.jpg" preload="metadata" playsinline webkit-playsinline loop></video>
+      <div class="play-btn"></div>
+      <div class="pause-indicator"></div>
+    </div>
+    <!-- slot 13 脉动生花弹幕 -->
+    <div class="video-hotspot" style="left:9.95%; top:48.18%; width:81.20%; height:12.88%;">
+      <video src="assets/videos/v13_maidong_danmu.mp4" poster="assets/posters/v13_maidong_danmu.jpg" preload="metadata" playsinline webkit-playsinline loop></video>
+      <div class="play-btn"></div>
+      <div class="pause-indicator"></div>
+    </div>
+    <!-- slot 14 金领冠生花弹幕 -->
+    <div class="video-hotspot" style="left:9.95%; top:63.38%; width:81.20%; height:12.88%;">
+      <video src="assets/videos/v14_jinlingguan_danmu.mp4" poster="assets/posters/v14_jinlingguan_danmu.jpg" preload="metadata" playsinline webkit-playsinline loop></video>
+      <div class="play-btn"></div>
+      <div class="pause-indicator"></div>
+    </div>
+    <!-- slot 15 奥利奥生花弹幕 占位 -->
+    <div class="video-hotspot" data-empty style="left:9.95%; top:78.45%; width:81.20%; height:12.88%;">
+      <video src="assets/videos/placeholder.mp4" poster="assets/posters/placeholder.jpg" preload="metadata" playsinline webkit-playsinline loop></video>
+      <div class="play-btn"></div>
+      <div class="pause-indicator"></div>
+    </div>
+  </div>
+
+  <!-- 04 系列专场：星讯 + 超级快进 -->
+  <div class="section" id="sec7">
+    <img class="bg" src="assets/images/sec7_series.png" alt="系列专场">
+    <!-- slot 16 金领冠星讯 -->
+    <div class="video-hotspot" style="left:8.94%; top:4.28%; width:82.03%; height:16.37%;">
+      <video src="assets/videos/v16_jinlingguan_star.mp4" poster="assets/posters/v16_jinlingguan_star.jpg" preload="metadata" playsinline webkit-playsinline loop></video>
+      <div class="play-btn"></div>
+      <div class="pause-indicator"></div>
+    </div>
+    <!-- slot 17 三九超级快进 -->
+    <div class="video-hotspot" style="left:8.94%; top:34.89%; width:82.03%; height:16.41%;">
+      <video src="assets/videos/v17_sanjiu_fast.mp4" poster="assets/posters/v17_sanjiu_fast.jpg" preload="metadata" playsinline webkit-playsinline loop></video>
+      <div class="play-btn"></div>
+      <div class="pause-indicator"></div>
+    </div>
+    <!-- slot 18 双鲸超级快进 -->
+    <div class="video-hotspot" style="left:8.94%; top:53.91%; width:82.03%; height:16.41%;">
+      <video src="assets/videos/v18_shuangjing_fast.mp4" poster="assets/posters/v18_shuangjing_fast.jpg" preload="metadata" playsinline webkit-playsinline loop></video>
+      <div class="play-btn"></div>
+      <div class="pause-indicator"></div>
+    </div>
+    <!-- slot 19 金领冠超级快进 占位 -->
+    <div class="video-hotspot" data-empty style="left:8.94%; top:72.96%; width:82.03%; height:16.37%;">
+      <video src="assets/videos/placeholder.mp4" poster="assets/posters/placeholder.jpg" preload="metadata" playsinline webkit-playsinline loop></video>
+      <div class="play-btn"></div>
+      <div class="pause-indicator"></div>
+    </div>
+  </div>
+
+  <!-- 一键速看 -->
+  <div class="section" id="sec8">
+    <img class="bg" src="assets/images/sec8_speedview.png" alt="一键速看">
+    <!-- slot 20 一键速看金领冠 -->
+    <div class="video-hotspot" style="left:8.94%; top:4.83%; width:82.03%; height:17.69%;">
+      <video src="assets/videos/v20_jinlingguan_speed.mp4" poster="assets/posters/v20_jinlingguan_speed.jpg" preload="metadata" playsinline webkit-playsinline loop></video>
+      <div class="play-btn"></div>
+      <div class="pause-indicator"></div>
+    </div>
+    <!-- slot 21 一键速看双鲸 -->
+    <div class="video-hotspot" style="left:8.94%; top:25.33%; width:82.03%; height:17.69%;">
+      <video src="assets/videos/v21_shuangjing_speed.mp4" poster="assets/posters/v21_shuangjing_speed.jpg" preload="metadata" playsinline webkit-playsinline loop></video>
+      <div class="play-btn"></div>
+      <div class="pause-indicator"></div>
+    </div>
+  </div>
+
+  <!-- 底部 -->
+  <div class="footer">
+    <div class="divider"></div>
+    优酷商业化 · 九门创新广告产品合集
+  </div>
+
+</div>
+
+<script>
+// ===== 滚动渐入动画 =====
+const sections = document.querySelectorAll('.section');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+sections.forEach(s => observer.observe(s));
+
+// ===== 视频点击播放/暂停 =====
+const hotspots = document.querySelectorAll('.video-hotspot');
+let currentPlaying = null;
+
+hotspots.forEach(spot => {
+  const video = spot.querySelector('video');
+
+  spot.addEventListener('click', () => {
+    if (video.paused) {
+      // 暂停其他正在播放的视频
+      if (currentPlaying && currentPlaying !== spot) {
+        const otherVideo = currentPlaying.querySelector('video');
+        otherVideo.pause();
+        currentPlaying.classList.remove('playing');
+      }
+      // 每次点击均从头播放
+      video.currentTime = 0;
+      video.play();
+      spot.classList.add('playing');
+      currentPlaying = spot;
+    } else {
+      video.pause();
+      spot.classList.remove('playing');
+      currentPlaying = null;
+    }
+  });
+
+  // 播放结束后恢复播放按钮并回到起始帧
+  video.addEventListener('ended', () => {
+    spot.classList.remove('playing');
+    currentPlaying = null;
+    video.currentTime = 0;
+  });
+});
+
+// ===== 滚动时自动暂停离屏视频 =====
+const videoObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) {
+      const video = entry.target.querySelector('video');
+      if (video && !video.paused) {
+        video.pause();
+        entry.target.classList.remove('playing');
+        if (currentPlaying === entry.target) currentPlaying = null;
+      }
+    }
+  });
+}, { threshold: 0.3 });
+hotspots.forEach(spot => videoObserver.observe(spot));
+</script>
+</body>
+</html>
